@@ -1,3 +1,77 @@
+# Exercício sobre Listas
+
+# 1.	Crie uma lista frutas contendo as seguintes frutas: "maçã", "banana", "laranja", "uva".
+frutas = ["maçã", "banana", "laranja", "uva"]
+
+# 2.	Imprima o primeiro e o último elemento da lista.
+print(frutas[0])
+print(frutas[-1]) # o -1 chama o último
+
+# 3.	Adicione a fruta "manga" ao final da lista.
+frutas.append("manga")
+
+# 4.	Remova a fruta "banana" da lista.
+frutas.remove("banana")
+
+# 5.	Substitua "laranja" por "abacaxi".
+indice_laranja = frutas.index("laranja")
+frutas[indice_laranja] = "abacaxi"
+
+# 6.	Crie uma lista numeros contendo os números de 1 a 10.
+numeros = list(range(1, 11))
+
+# 7.	Calcule e imprima a soma de todos os números da lista.
+soma = sum(numeros)
+print(soma)
+
+# 8.	Encontre e imprima o maior e o menor número da lista.
+print(max(numeros))
+print(min(numeros))
+
+# 9.	Inverta a ordem dos elementos na lista e imprima a lista invertida.
+numeros.reverse()
+print(numeros)
+
+# 10.	Crie uma lista cidades contendo as seguintes cidades: "São Paulo", "Rio de Janeiro", "Belo Horizonte", "Curitiba".
+cidades = ["São Paulo", "Rio de Janeiro", "Belo Horizonte", "Curitiba"]
+
+# 11.	Ordene a lista cidades em ordem alfabética.
+cidades.sort()
+print(cidades)
+
+# 12.	Adicione a cidade "Porto Alegre" ao final da lista.
+cidades.append("Porto Alegre")
+
+# 13.	Encontre o índice da cidade "Curitiba" na lista.
+indice_curitiba = cidades.index("Curitiba")
+print(indice_curitiba)
+
+# 14.	Remova a cidade "Rio de Janeiro" da lista.
+cidades.remove("Rio de Janeiro")
+
+# 15.	Crie duas listas lista1 e lista2, onde lista1 contém os números [1, 2, 3] e lista2 contém os números [4, 5, 6].
+lista1 = [1, 2, 3]
+lista2 = [4, 5, 6]
+
+# 16.	Concatene lista1 e lista2 em uma nova lista lista3.
+lista3 = lista1 + lista2
+
+# 17.	Imprima lista3.
+print(lista3)
+
+# 18.	Crie duas listas animais_domesticos e animais_selvagens, onde animais_domesticos contém ["cachorro", "gato", "coelho"] e animais_selvagens contém ["leão", "tigre", "urso"].
+animais_domesticos = ["cachorro", "gato", "coelho"]
+animais_selvagens = ["leão", "tigre", "urso"]
+
+# 19.	Concatene as duas listas em uma nova lista todos_animais.
+todos_animais = animais_domesticos + animais_selvagens
+
+
+# Looping com for
+
+# 20.	Imprima todos_animais.
+print(todos_animais)
+
 # 21. Crie uma lista nomes contendo os nomes: "Ana", "Pedro", "Maria", "João".
 nomes = ["Ana", "Pedro", "Maria", "João"]
 
@@ -60,3 +134,43 @@ for nota in notas:
 compras =["arroz", "feijão", "batata", "carne"]
 for item in compras:
     print(f"Preciso comprar: {item}")
+
+
+# Looping usando while
+
+# 30. Escreva um programa que use um loop while para imprimir os números de 1 a 10.
+i = 1
+while i <= 10:
+    print(i)
+    i += 1
+
+# 31. Usando um loop while, peça para o usuário digitar um número inteiro. O programa deve parar quando o usuário digitar o número 0.
+numero = 1
+
+while numero != 0:
+    numero = float(input("Digite um número (0 para parar): "))
+    
+# 32. Utilize um loop while para calcular a soma dos números de 1 a 100.
+contador = 1
+soma = 0
+
+while contador <= 100:
+    soma += contador
+    contador += 1
+
+print(soma)
+
+# 33. Peça para o usuário adivinhar um número secreto (por exemplo, 7). Use um loop while para continuar pedindo até que ele acerte.
+numero_secreto = 7
+palpite = 0
+
+while palpite != numero_secreto:
+    palpite = float(input("Adivinhe o número secreto: "))
+print("Parabéns! Você acertou.")
+
+# 34. Crie um loop while que imprima todos os números pares de 2 até 20.
+par = 2
+
+while par <= 20:
+    print(par)
+    par += 2
