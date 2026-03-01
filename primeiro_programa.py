@@ -15,6 +15,7 @@ for item in lista_mista:
     elif type(item) == int:
         numero.append(item)
 
+
 lista_mista2 = [20,30,50,10,"cavalo", "pato", 16, 17]
 i = 0
 while i < len(lista_mista2):
@@ -28,3 +29,4 @@ dict_mista = {"animal" : "cavalo",
               12 : 16,
               13 : 17
 }
+# %%

@@ -2,12 +2,12 @@
 # Mundial de Universidades (notas.csv)
 import pandas as pd
 df = pd.read_csv(r"C:\Users\camis\OneDrive\Anexos de email\Área de Trabalho\FACULDADE\PROG. PARA ANALISE DE DADOS\analiseDados\Dados\notas.csv")
-df.shape
-df.columns
-df.dtypes
-df.isna().sum()
-df.head()
-df.tail()
+# df.shape
+# df.columns
+# df.dtypes
+# df.isna().sum()
+# df.head()
+# df.tail()
 
 # ============================================================
 # EXPLORAÇÃO INICIAL (EDA BÁSICA)
@@ -26,10 +26,12 @@ df.isna().sum()
 #Sim a coluna broad_impact tem 200 NAs
 
 # 4. Qual é o período de anos disponível? 
+# df.loc[:, "year"].unique()     - outra forma de fazer
 anos =df[["year"]].drop_duplicates()
 # 2012 - 2015
 
 # 5. Quantos países diferentes existem?
+# len(df.loc[:, "year"]).unique()
 paises =df[["country"]].drop_duplicates()
 paises.shape
 #59 países
@@ -47,7 +49,7 @@ score.min()
 
 # 4. Média do score por ano 
 agrupamento = df.groupby("year")["score"].mean()
-
+print(agrupamento)
 # 5. Desvio padrão do score
 score.std()
 
@@ -59,10 +61,13 @@ score.std()
 # 1. Mostre as 10 melhores universidades do mundo (menor world_rank) 
 top_10 = df[df["world_rank"] <= 10]
 print(top_10)
+#ver .sort_values()
 
 # 2. Mostre as 5 melhores universidades do Brasil (se existirem) 
 top_5_brasil = df[(df["country"] == "Brazil") & (df["national_rank"] <= 5)]
 print(top_5_brasil)
+
+#alternativa .iloc[:5]
 # 3. Mostre universidades com score maior que 90 
 nota_90 = df[df["score"] >= 90]
 print(nota_90)
@@ -79,6 +84,10 @@ print(selecao_1)
 # 2. Mostre universidades entre rank 50 e 100 
 selecao_2 = df[(df["world_rank"] >= 50) & (df["world_rank"] <= 100)]
 print(selecao_2)
+
+#alternativa: filtro = (df["world_rank"] >= 50) & (df["world_rank"] <= 100)
+#df.loc[filtro,["instituition", "world_rank","country,"year"]].sort_values("world_rank")
+
 # 3. Mostre universidades cujo país é “United Kingdom”
 united_kingdom = df[df["country"] == "United Kingdom"]
 print(united_kingdom)
