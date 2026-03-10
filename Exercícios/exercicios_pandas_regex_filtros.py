@@ -278,4 +278,4 @@ filtro18_b = df_leads["campanha"].str.contains( r"^[A-Za-z_ ]+$", case=False)
 df_leads.loc[filtro18_b, :]
 
 filtro18_c = df_leads["campanha"].str.contains( r"^[A-Za-z_ ]+$", na=False)
-df_leads.loc[filtro18_b, :]
+df_leads.loc[filtro18_c, :]
