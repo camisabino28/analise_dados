@@ -104,9 +104,14 @@ teste.idxmax()
 
 # Exercicio 6:
 # a) Ordene df_vendas por "vendas" em ordem decrescente
+df_vendas.sort_values(by='vendas', ascending=True)
 # b) Pegue os 3 maiores resultados de vendas
-# c) Mostre um ranking com "filial", "mes", "vendas"
+df_vendas.sort_values(by='vendas', ascending=True).tail(3)
 
+# opção 2: ascending = False e .head(3)
+
+# c) Mostre um ranking com "filial", "mes", "vendas"
+ranking = df_vendas.sort_values(by='vendas', ascending=False)[['filial', 'mes', 'vendas']]
 # RESOLUCAO: complete aqui
 
 
@@ -119,16 +124,24 @@ teste.idxmax()
 #    - total_vendas
 #    - media_ticket_medio
 #    - total_clientes
+df_vendas['ticket_medio'] = df_vendas['vendas'] / df_vendas['clientes']
+resumo_filial = df_vendas.groupby('filial').agg({
+    'vendas': 'sum',           
+    'ticket_medio': 'mean',    
+    'clientes': 'sum'          
+})
 # 2) Ordene o resumo por total_vendas (desc)
-# 3) Exiba qual filial teve melhor desempenho geral
+resumo_filial.sort_values(by='vendas', ascending=True)
 
+# 3) Exiba qual filial teve melhor desempenho geral
+resumo_filial.loc[resumo_filial["vendas"] == resumo_filial["vendas"].max(), ["vendas", "ticket_medio", "clientes"]]
 # RESOLUCAO: complete aqui
 
 
 # ===========================================================
 # PARTE 1 – Estrutura lista + dicionário
 # ===========================================================
-
+import pandas as pd
 dados_list_dict = [{
     "Column A":[1, 2, 3],
     "Column B":[4, 5, 6],
@@ -177,8 +190,13 @@ df1.mean()
 
 # No df1:
 # 1. Crie coluna "Total" = soma das colunas
+df1["Total"] = df1.sum(axis=1)
 # 2. Crie coluna "Media" = média por linha
+colunas = ["Column A", "Column B", "Column C"]
+df1["Media"] = df1[colunas].mean(axis=1)
 # 3. Filtre linhas onde Total > 10
+filtro = df1["Total"] >= 10
+df1.loc[filtro, :]
 
 # RESOLVA AQUI:
 
@@ -209,12 +227,19 @@ df1.to_dict(orient="list")
 # -----------------------------------------------------------
 
 # 1. Transforme a coluna "Column A" em uma lista chamada lista_a.
-lista = df1["Column A"].to_list()
+lista_a = df1["Column A"].to_list()
 
 # 2. Multiplique cada elemento da lista por 10.
+lista_a_multiplicada = []
+for x in lista_a:
+    lista_a_multiplicada.append(x * 10)
+    
+# outra opção: lista_a = (df1["Column A"] * 10).to_list()
 
 # 3. Crie uma nova coluna chamada "Column A x10" com essa nova lista.
+df1["Column A x10"] = lista_a_multiplicada
 
+# Forma mais eficiente: df1["Column A x10"] = df1["Column A"] * 10
 # RESOLVA AQUI:
 
 
@@ -247,12 +272,17 @@ dados = [
 
 # Exercício 1
 # 1. Qual o tipo da variável dados?
-
-
+type(dados)
 # 2. Quantos registros existem?
+len(dados)
 # 3. Quais são as chaves do primeiro dicionário?
+dados[0].keys()
 # 4. Liste todos os países existentes (sem repetição).
-
+paises = []
+for dict in dados:
+    nome = dict["nome_pais"]
+    if nome not in paises:
+     paises.append(nome)
 # RESOLVA AQUI:
 
 
@@ -265,8 +295,11 @@ dados = [
 # 1. Converta dados para DataFrame chamado df
 df = pd.DataFrame(dados)
 # 2. Mostre shape, tipos e primeiras linhas
+df.shape
+df.dtypes
+df.head()
 # 3. Converta a coluna periodo para datetime
-
+df["periodo"] = pd.to_datetime(df["periodo"])
 # RESOLVA AQUI:
 
 
@@ -277,18 +310,23 @@ df = pd.DataFrame(dados)
 
 # Exercício 3 – Filtros
 # 1. Filtre apenas Brasil
+df.loc[df["nome_pais"] == "Brasil", :]
 # 2. Filtre apenas Produto A
+df.loc[df["descricao"] == "Produto A", :]
 # 3. Filtre valor > 4000
+df.loc[df["valor"] > 4000, :]
 # 4. Combine Brasil + Produto A
-
+df.loc[(df["nome_pais"] == "Brasil") & (df["descricao"] == "Produto A"), :]
 # RESOLVA AQUI:
 
 
 # Exercício 4 – Ordenação
 # 1. Ordene por valor crescente
+df.sort_values(by='valor', ascending=True)
 # 2. Ordene por valor decrescente
+df.sort_values(by='valor', ascending=False)
 # 3. Ordene por periodo e depois por valor
-
+df.sort_values(by=['periodo', 'valor'])
 # RESOLVA AQUI:
 
 
@@ -299,19 +337,23 @@ df = pd.DataFrame(dados)
 
 # Exercício 5 – GroupBy Simples
 # 1. Total exportado por país
+df.groupby("nome_pais")["valor"].sum()
 # 2. Total exportado por produto
+df.groupby("descricao")["valor"].sum()
 # 3. Média por país
+df.groupby("nome_pais")["valor"].mean()
 # 4. Quantidade de operações por país
-
+df.groupby("nome_pais")["tipo_operacao"].count()
 # RESOLVA AQUI:
 
 
 # Exercício 6 – GroupBy Múltiplo
 # Agrupe por nome_pais e descricao
 # Calcule soma, média e contagem
-
+df.groupby(['nome_pais', 'descricao'])['valor'].agg(['sum', 'mean', 'count'])
 # Explique em comentário o que essa tabela representa
 
+# Essa  permite identificar qual produto é o carro chefe de cada país 
 # RESOLVA AQUI:
 
 
@@ -327,9 +369,21 @@ df = pd.DataFrame(dados)
 
 # Responda:
 # 1. Qual produto vendeu mais?
-# 2. Qual mês teve maior valor total?
-# 3. Existe mês sem venda?
+tabela_pivot = df.pivot_table(index='periodo', 
+                              columns='descricao', 
+                              values='valor', 
+                              aggfunc='sum')
 
+somas = tabela_pivot.sum()
+somas.idxmax()
+
+# 2. Qual mês teve maior valor total?
+tabela_pivot.sum(axis = 1).idxmax()
+
+# 3. Existe mês sem venda?
+tabela_pivot.isna()
+
+# Sim, em março o produto B nao vendeu
 # RESOLVA AQUI:
 
 
@@ -341,8 +395,12 @@ df = pd.DataFrame(dados)
 # Explique o que podemos interpretar dessa tabela
 
 # RESOLVA AQUI:
+tabela_pivot_2 = df.pivot_table(index='periodo', 
+                              columns='nome_pais', 
+                              values='valor', 
+                              aggfunc='sum')
 
-
+#A tabela revela uma alternância completa entre os fluxos, onde as exportações de um país ocorrem apenas nos meses de inatividade do outro.
 
 # ===========================================================
 # PARTE 6 – FEATURE ENGINEERING
@@ -350,9 +408,12 @@ df = pd.DataFrame(dados)
 
 # Exercício 9
 # 1. Extraia ano e mês da coluna periodo
+df["periodo"].dt.year
+df["periodo"].dt.month
 # 2. Crie coluna valor_mil (valor / 1000)
+df["valor_mil"] = df["valor"] / 1000
 # 3. Calcule crescimento percentual por produto mês a mês
-
+tabela_crescimento = tabela_pivot.pct_change() * 100
 # RESOLVA AQUI:
 
 
@@ -363,9 +424,11 @@ df = pd.DataFrame(dados)
 
 # Exercício 10
 # 1. Verifique valores nulos
+df.isnull().sum()
 # 2. Verifique valores negativos
+df[df['valor'] < 0]
 # 3. Verifique duplicatas
-
+df.duplicated().sum()
 # RESOLVA AQUI:
 
 
