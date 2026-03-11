@@ -80,7 +80,7 @@ Este repositório contém os scripts em **Python** desenvolvidos ao longo da dis
 | **Ex 02** | Lista dicionários | ✅ |
 | **Ex 03** | Exercício CSV | ✅ |
 | **Ex 04** | Exercício salário | ✅ |
-| **Ex 05** | Exercício lista_dict_df | 🏃 |
+| **Ex 05** | Exercício lista_dict_df | ✅ |
 | **Ex 06** | Exercício API | 🏃 |
 | **Ex 07** | Exercício Pandas Regex | ✅ |
 
