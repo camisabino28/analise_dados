@@ -117,7 +117,12 @@ Exercícios:
 4. Transforme em DataFrame.
 """
 # RESOLVA AQUI:
-
+url4 = "http://www.ipeadata.gov.br/api/odata4/Metadados/"
+response4 = requests.get(url4)
+response4.status_code
+dados = response4.json()["value"]
+df = pd.json_normalize(dados)
+df = df.loc[:, ["SERCODIGO", "SERNOME", "SERCOMENTARIO"]]
 
 
 # ===========================================================
@@ -143,8 +148,15 @@ Exercícios:
 4. Plote gráfico de linha.
 """
 # RESOLVA AQUI:
-
-
+url5 = "https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoDolarPeriodo(dataInicial=@dataInicial,dataFinalCotacao=@dataFinalCotacao)"
+params = {
+    "@dataInicial": "'01-01-2024'",
+    "@dataFinalCotacao": "'12-31-2024'",
+    "$format": "json"}
+response5 = requests.get(url5, params=params)
+response5.status_code
+dados = response5.json()["value"]
+dados = pd.json_normalize(dados)
 
 # ===========================================================
 # PARTE 7 – FOOTBALL-DATA.ORG
