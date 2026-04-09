@@ -59,3 +59,8 @@ ibov5 = yf.download("^BVSP", start= "2021-04-01", end = "2026-03-30")
 preco_fechamento_ibov5= ibov5["Close"]
 rendimento_ibov = preco_fechamento_ibov5["^BVSP"].iloc[-1] / preco_fechamento_ibov5["^BVSP"].iloc[0] - 1
 print(f"Rendimento: {rendimento_ibov:.2%}")
+
+
+
+print(f"Rendimento da Carteira (Equiponderada 5%): {rendimento_carteira:.2%}")
+print(f"Rendimento: {rendimento_ibov:.2%}")
